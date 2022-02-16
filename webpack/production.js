@@ -59,9 +59,6 @@ module.exports = {
 				},
 			}),
 		],
-		splitChunks: {
-			chunks: 'all',
-		},
 	},
 
 	output: {
@@ -69,7 +66,7 @@ module.exports = {
 		filename: '[name].[chunkhash].js',
 		globalObject: 'window',
 		path: path.resolve(__dirname, '..', 'docs'),
-		publicPath: '/',
+		publicPath: '/copywork',
 	},
 
 	plugins: [
