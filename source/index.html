@@ -1,0 +1,126 @@
+<!-- <%= htmlWebpackPlugin.options.BUILD_DATE %>, <%= htmlWebpackPlugin.options.BUILD_HASH %> -->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Copywork by Miscreants</title>
+
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="initial-scale=1.0" />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Copse&display=swap" rel="stylesheet" />
+
+		<style type="text/css" data-preloader="true">
+			* {
+				box-sizing: border-box;
+				font-family: sans-serif;
+			}
+
+			html,
+			body {
+				overflow: hidden;
+				margin: 0;
+			}
+
+			#loader {
+				align-items: center;
+				bottom: 0;
+				display: flex;
+				justify-content: center;
+				left: 0;
+				position: fixed;
+				right: 0;
+				top: 0;
+				z-index: 2;
+			}
+
+			#loader div {
+				height: 64px;
+				filter: drop-shadow(0 1px 2px #000);
+				position: relative;
+				width: 64px;
+			}
+
+			#loader div:before,
+			#loader div:after {
+				border: 7px #070c10 solid;
+				border-radius: 1000px;
+				bottom: 0;
+				content: '';
+				left: 0;
+				position: absolute;
+				right: 0;
+				top: 0;
+			}
+
+			#loader div:before {
+				opacity: 0.5;
+				z-index: 0;
+			}
+
+			#loader div:after {
+				animation: rotate 1s infinite linear;
+				border-color: #fff;
+				border-left-color: transparent !important;
+				z-index: 1;
+			}
+
+			body.failed_loading_app #loader {
+				display: none;
+			}
+
+			body[data-theme='dark'] {
+				background: #162736;
+			}
+
+			@keyframes rotate {
+				0% {
+					transform: rotate(0deg);
+				}
+
+				100% {
+					transform: rotate(360deg);
+				}
+			}
+		</style>
+		<style data-preloader="true">
+			#failure {
+				font-family: sans-serif;
+				display: none;
+				margin: 32px auto;
+				max-width: 512px;
+			}
+
+			#failure h1 {
+				margin: 0 0 16px 0;
+			}
+
+			body.failed_loading_app #failure {
+				display: block;
+			}
+		</style>
+		<script type="text/javascript" data-preloader="true">
+			if (window.matchMedia) {
+				const mode = window.matchMedia('(prefers-color-scheme: dark)').matches
+					? 'dark'
+					: 'light';
+
+				document.documentElement.setAttribute('data-preferred-theme', mode);
+			}
+		</script>
+	</head>
+	<body>
+		<div id="loader"><div></div></div>
+
+		<div id="failure">
+			<h1>Failed to load content</h1>
+			<p>
+				Check your internet connection and
+				<a href="javascript:window.location.reload(true);">refresh</a>
+				the page.
+			</p>
+		</div>
+	</body>
+</html>
