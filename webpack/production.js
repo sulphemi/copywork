@@ -68,7 +68,7 @@ module.exports = {
 		chunkFilename: '[name].[chunkhash].js',
 		filename: '[name].[chunkhash].js',
 		globalObject: 'window',
-		path: path.resolve(__dirname, '..', 'build'),
+		path: path.resolve(__dirname, '..', 'docs'),
 		publicPath: '/',
 	},
 

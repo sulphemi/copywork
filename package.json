@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "npx webpack serve --config webpack/development.js",
 		"start-server-only": "npx webpack serve --config webpack/development.js",
-		"build": "npx webpack --mode production --config webpack/production.js",
+		"build": "rm -rf docs && npx webpack --mode production --config webpack/production.js",
 		"analyze": "npx webpack --mode production --config webpack/analyze.js",
 		"serve": "npx nodemon server.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
