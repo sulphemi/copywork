@@ -16,20 +16,11 @@ export default MenuIcon;
 // -----------------------------------------------------------------------------
 
 const Icon = styled.svg`
-	cursor: pointer;
-	height: 32px;
-	width: 32px;
+	height: 100%;
+	pointer-events: none;
+	width: 100%;
 
 	& path {
 		fill: currentColor;
-	}
-
-	&:hover {
-		background: currentColor;
-		border-radius: 32px;
-
-		& path {
-			fill: #eee;
-		}
 	}
 `;

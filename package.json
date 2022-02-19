@@ -8,7 +8,7 @@
 		"start-server-only": "npx webpack serve --config webpack/development.js",
 		"build": "rm -rf docs && npx webpack --mode production --config webpack/production.js",
 		"analyze": "npx webpack --mode production --config webpack/analyze.js",
-		"serve": "npx nodemon server.js",
+		"tunnel": "npx localtunnel --port 8888 --subdomain copywork",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "TEAM MISCREANTS <project+copyright@miscreants.co>",
@@ -42,6 +42,7 @@
 		"eslint": "^8.9.0",
 		"eslint-plugin-react": "^7.28.0",
 		"html-webpack-plugin": "^5.5.0",
+		"localtunnel": "^2.0.2",
 		"nodemon": "^2.0.15",
 		"npm-check-updates": "^12.3.0",
 		"prettier": "^2.5.1",

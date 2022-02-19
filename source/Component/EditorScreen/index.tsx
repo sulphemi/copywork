@@ -1,7 +1,13 @@
-import { memo, useRef, useState, RefObject, useEffect } from 'react';
+import { memo, useRef, useState, RefObject, useEffect, Children } from 'react';
+import { useStoreon } from 'storeon/react';
 import styled from 'styled-components';
+import { ContinueIf, ReturnIf } from 'babel-plugin-transform-functional-return';
 
 import Header from 'Component/EditorScreen/Header';
+
+// -----------------------------------------------------------------------------
+
+const NotAlphanumericRegex: RegExp = /[^a-z0-9]/i;
 
 // -----------------------------------------------------------------------------
 
@@ -10,11 +16,14 @@ const EditorScreen = memo(function EditorScreen(): JSX.Element {
 	const errorRef: RefObject<HTMLDivElement> = useRef();
 
 	//
+	const { settings = {} } = useStoreon('settings');
 	const [contentToCopy, setContentToCopy] = useState(undefined as string);
 
 	//
-	useEffect(onManagingEvents(contentToCopy, setContentToCopy, writerRef, errorRef), [
+	useEffect(onManagingEvents(contentToCopy, setContentToCopy, writerRef, errorRef, settings), [
 		contentToCopy,
+		setContentToCopy,
+		settings,
 	]);
 
 	//
@@ -47,11 +56,14 @@ function onManagingEvents(
 	setContentToCopy: Function,
 	writerRef: RefObject<HTMLDivElement>,
 	errorRef: RefObject<HTMLDivElement>,
+	settings: GenericObject,
 ) {
 	return () => {
 		const onClick = contentToCopy
 			? (e: MouseEvent) => {
-					if (!(e.target as HTMLDivElement).dataset.editor) {
+					const target = e.target as HTMLDivElement;
+
+					if (!target.dataset.editor) {
 						// set cursor to end of writer component
 						// https://stackoverflow.com/a/3866442/7400022
 						const range = document.createRange();
@@ -74,6 +86,8 @@ function onManagingEvents(
 					const clipboardData = e.clipboardData || window.clipboardData;
 					const pastedData = clipboardData
 						.getData('Text')
+						.replace(/ +/g, ' ')
+						.replace(/\t/g, '')
 						.replace(/\r/g, '')
 						.replace(/\n{1,}/g, '\n\n')
 						.trim();
@@ -86,6 +100,76 @@ function onManagingEvents(
 					setTimeout(() => writerRef.current.focus(), 100);
 			  };
 
+		const onKeydown = contentToCopy
+			? (e: KeyboardEvent) => {
+					ReturnIf(e.metaKey || e.altKey || e.ctrlKey);
+
+					switch (true) {
+						// prevent enter from inserting divs
+						case e.key === 'Enter':
+							e.stopImmediatePropagation();
+							e.preventDefault();
+
+							if (settings.autocorrect_last_word_on_space) {
+								const range: Range = window.getSelection().getRangeAt(0);
+								const node: Node =
+									range.startContainer === writerRef.current
+										? writerRef.current.lastChild
+										: range.startContainer;
+								const index: number =
+									range.startContainer === writerRef.current
+										? writerRef.current.lastChild.textContent.length
+										: range.startOffset;
+
+								const line = getCurrentLine(contentToCopy, node);
+								const lastSpace = line.includes(' ')
+									? line.lastIndexOf(' ') + 1
+									: line.length;
+
+								if (index >= lastSpace) {
+									handleAutocorrectLastWord(
+										contentToCopy,
+										writerRef.current,
+										false,
+									);
+								}
+							}
+
+							document.execCommand('insertLineBreak');
+							return;
+
+						// no space on first letter
+						case e.key === ' ':
+							switch (true) {
+								case writerRef.current.textContent.length < 1:
+								case wouldCreateConsecutiveSpaces(writerRef.current):
+									e.stopImmediatePropagation();
+									e.preventDefault();
+									return;
+							}
+							break;
+					}
+
+					//
+					if (settings.ignore_punctuation) {
+						if (handleIgnorePunctuation(e, contentToCopy, writerRef.current)) {
+							e.stopImmediatePropagation();
+							e.preventDefault();
+							return;
+						}
+					}
+
+					//
+					if (settings.autocorrect_last_word_on_space && e.key === ' ') {
+						if (handleAutocorrectLastWord(contentToCopy, writerRef.current)) {
+							e.stopImmediatePropagation();
+							e.preventDefault();
+							return;
+						}
+					}
+			  }
+			: undefined;
+
 		const onKeyUp = contentToCopy
 			? checkUserProgress(contentToCopy, writerRef, errorRef)
 			: undefined;
@@ -93,12 +177,14 @@ function onManagingEvents(
 		//
 		window.addEventListener('paste', onPaste);
 		window.addEventListener('click', onClick);
+		window.addEventListener('keydown', onKeydown);
 		window.addEventListener('keyup', onKeyUp);
 
 		//
 		return () => {
 			window.removeEventListener('paste', onPaste);
 			window.removeEventListener('click', onClick);
+			window.removeEventListener('keydown', onKeydown);
 			window.removeEventListener('keyup', onKeyUp);
 		};
 	};
@@ -152,13 +238,141 @@ function checkUserProgress(
 		//
 		const letters = Array.from(text);
 		errors.forEach(([start, end]) => {
-			letters[start] = `<span spellcheck="false">${letters[start]}`;
+			letters[start] = `<span>${letters[start]}`;
 			letters[end - 1] = `${letters[end - 1] || ''}</span>`;
 		});
 
 		//
 		errorRef.current.innerHTML = letters.join('');
 	};
+}
+
+function wouldCreateConsecutiveSpaces(writer: Node): boolean {
+	const range = window.getSelection().getRangeAt(0);
+	const index =
+		range.startContainer === writer ? writer.lastChild.textContent.length : range.startOffset;
+	const node = range.startContainer === writer ? writer.lastChild : range.startContainer;
+	const line = node.textContent;
+
+	//
+	return line[index - 1] === ' ' || line[index] === ' ';
+}
+
+function handleIgnorePunctuation(e: KeyboardEvent, contentToCopy: string, writer: Node): boolean {
+	switch (true) {
+		case !NotAlphanumericRegex.test(e.key):
+			return false;
+
+		case e.key === ' ':
+			return false;
+	}
+
+	//
+	const range: Range = window.getSelection().getRangeAt(0);
+	const node: Node = range.startContainer === writer ? writer.lastChild : range.startContainer;
+	const index: number =
+		range.startContainer === writer ? writer.lastChild.textContent.length : range.startOffset;
+
+	const line = getCurrentLine(contentToCopy, node);
+	const letter: string = line[index];
+
+	//
+	switch (true) {
+		case !NotAlphanumericRegex.test(letter):
+		case letter === '':
+		case letter === '\n':
+			return false;
+	}
+
+	//
+	node.textContent = `${node.textContent.slice(0, index)}${letter}${node.textContent.slice(
+		index,
+	)}`;
+
+	//
+	range.setStart(node, index + 1);
+	range.collapse(false);
+
+	//
+	return true;
+}
+
+function handleAutocorrectLastWord(
+	contentToCopy: string,
+	writer: Node,
+	addSpace: boolean = true,
+): boolean {
+	const range: Range = window.getSelection().getRangeAt(0);
+	const node: Node = range.startContainer === writer ? writer.lastChild : range.startContainer;
+	ReturnIf(node === null, false);
+
+	//
+	const index: number =
+		range.startContainer === writer ? writer.lastChild.textContent.length : range.startOffset;
+	const line = getCurrentLine(contentToCopy, node);
+	const entered = node.textContent;
+	const start = getPreviousSpace(entered, index);
+	const end = getNextSpace(line, start);
+
+	const willAddSpace = addSpace && end < line.length;
+
+	//
+	const nodeWord = entered.slice(start, index);
+	const word = line.slice(start, end);
+	ReturnIf(nodeWord === word, false);
+
+	//
+	range.setStart(node, start);
+	range.setEnd(node, start + nodeWord.length);
+	document.execCommand('insertText', false, `${word}${willAddSpace ? ' ' : ''}`);
+	range.collapse(false);
+
+	//
+	return true;
+}
+
+function getCurrentLine(contentToCopy: string, node: Node): string {
+	const lines = contentToCopy.split('\n');
+	const lineIndex = getCurrentLineIndex(node);
+
+	//
+	return lines[lineIndex];
+}
+
+function getCurrentLineIndex(node: Node): number {
+	let lineIndex: number = 0;
+	let offset: number = 0;
+	let lastChild = null;
+	for (let i: number = 0; i < node.parentNode.childNodes.length; i++) {
+		const child: Node = node.parentNode.childNodes[i];
+
+		if (child.textContent === '\n' && lastChild?.textContent === '\n') {
+			offset += 1;
+		}
+
+		ReturnIf(child === node, lineIndex - offset);
+
+		//
+		lastChild = child;
+		lineIndex += 1;
+	}
+
+	//
+	return 0;
+}
+
+function getPreviousSpace(text: string, offset: number = undefined): number {
+	const index: number = text.lastIndexOf(' ', offset);
+
+	//
+	return index < 0 ? 0 : index + 1;
+}
+
+function getNextSpace(text: string, offset: number): number {
+	const index = text.indexOf(' ', offset);
+
+	//
+	return index < 0 ? text.length : index;
 }
 
 // -----------------------------------------------------------------------------
@@ -204,6 +418,7 @@ const GhostContent = styled.div`
 `;
 
 const Writer = styled.div`
+	display: inline-block;
 	font-size: 1.5rem;
 	outline: 0;
 	padding: 1vw;
@@ -231,6 +446,6 @@ const ErrorContent = styled.div`
 	z-index: 2;
 
 	& span {
-		background: pink;
+		border-bottom: 4px solid red;
 	}
 `;
