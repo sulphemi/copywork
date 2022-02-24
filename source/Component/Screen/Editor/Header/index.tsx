@@ -4,8 +4,8 @@ import styled from 'styled-components';
 
 import { updateSettings } from 'store/action/settings';
 
-import MenuIcon from 'Component/MenuIcon';
-import CreateIcon from 'Component/CreateIcon';
+import MenuIcon from 'Component/Icon/Menu';
+import CreateIcon from 'Component/Icon/Create';
 
 // -----------------------------------------------------------------------------
 
@@ -54,8 +54,8 @@ const EditorScreenHeader = memo(function EditorScreenHeader({
 								<label>
 									<input
 										type="checkbox"
-										checked={settings?.autocorrect_last_word_on_space}
-										onChange={onChangeSetting('autocorrect_last_word_on_space')}
+										checked={settings?.autocorrect}
+										onChange={onChangeSetting('autocorrect')}
 									/>{' '}
 									Autocorrect last word on space
 								</label>

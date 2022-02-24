@@ -1,27 +1,17 @@
 import { render } from 'react-dom';
-import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { StoreContext } from 'storeon/react';
-
-import useThemeMode from 'effect/use_mode_theme';
 
 import Store from 'store';
 
-import EditorScreen from 'Component/EditorScreen';
 import ErrorBoundary from 'Component/ErrorBoundary';
 
-// -----------------------------------------------------------------------------
+import EditorScreen from 'Component/Screen/Editor';
+import HomeScreen from 'Component/Screen/Home';
+import NotFoundScreen from 'Component/Screen/NotFound';
+import LibraryScreen from 'Component/Screen/Library';
 
-const GlobalStyle = createGlobalStyle`
-	* {
-		box-sizing: border-box;
-		font-family: 'Copse', serif;
-	}
-
-  html, body {
-	  background: #EEE;
-	  height: 100%;
-	  margin: 0;
-  }`;
+import Layout from 'Component/Layout';
 
 // -----------------------------------------------------------------------------
 
@@ -36,17 +26,20 @@ export default function renderApp(): void {
 // -----------------------------------------------------------------------------
 
 function App(): JSX.Element {
-	const theme = useThemeMode();
-
-	//
 	return (
-		<ThemeProvider theme={theme}>
-			<GlobalStyle />
+		<BrowserRouter>
 			<StoreContext.Provider value={Store}>
-				<ErrorBoundary>
-					<EditorScreen />
-				</ErrorBoundary>
+				<Layout>
+					<ErrorBoundary>
+						<Routes>
+							<Route path="/library" element={<LibraryScreen />} />
+							<Route path="/playground" element={<EditorScreen />} />
+							<Route path="/" element={<HomeScreen />} />
+							<Route element={<NotFoundScreen />} />
+						</Routes>
+					</ErrorBoundary>
+				</Layout>
 			</StoreContext.Provider>
-		</ThemeProvider>
+		</BrowserRouter>
 	);
 }

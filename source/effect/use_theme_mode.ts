@@ -1,11 +1,10 @@
 import { ReturnIf } from 'babel-plugin-transform-functional-return';
-
-import Store from 'store';
+import { useStoreon } from 'storeon/react';
 
 // -----------------------------------------------------------------------------
 
 export default function useThemeMode() {
-	const { theme_mode: themeMode } = Store.get() as GenericObject;
+	const { theme: themeMode } = useStoreon('theme');
 	ReturnIf(themeMode, getModeTheme(themeMode));
 
 	//
@@ -25,28 +24,17 @@ function getModeTheme(themeMode: string): GenericObject {
 // -----------------------------------------------------------------------------
 
 const lightModeTheme = {
-	bodyBackground: '#F5F5F5',
-	bodyForeground: '#4E565C',
+	backgroundColor: '#fff',
 
-	color1: '#203449',
-	color2: '#708594',
-	color3: '#070C10',
-	color4: '#00A4FA',
+	sidebarBackgroundColor: '#f7f7f7',
+	sidebarForegroundColor: '#000',
 };
 
 // -----------------------------------------------------------------------------
 
 const darkModeTheme = {
-	bodyBackground: '#162736',
-	bodyForeground: '#F5F5F5',
+	backgroundColor: '#333',
 
-	headerBackground: '#203449',
-	headerForeground: '#F5F5F5',
-	headerAccountBackground: '#708594',
-
-	color0: '#162736',
-	color1: '#203449',
-	color2: '#708594',
-	color3: '#070C10',
-	color4: '#00A4FA',
+	sidebarBackgroundColor: '#666',
+	sidebarForegroundColor: '#FFF',
 };

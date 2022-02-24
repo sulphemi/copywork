@@ -15,7 +15,7 @@ if (ENVIRONMENT === 'development') {
 const Store = createStoreon([
 	initialStore,
 	wireUpEvents,
-	persistState(['theme_mode', 'settings']),
+	persistState(['theme', 'settings']),
 	storeonDevtools,
 ]);
 
@@ -31,9 +31,12 @@ function initialStore(store: StoreonStore): void {
 
 function initialStoreState() {
 	return {
+		theme: document.documentElement.getAttribute('data-preferred-theme') || 'light',
 		settings: {
+			spellcheck: false,
 			ignore_punctuation: true,
-			autocorrect_last_word_on_space: true,
+			autocorrect: true,
+			font: 'Copse',
 		},
 	};
 }

@@ -1,9 +1,9 @@
 import { memo, useRef, useState, RefObject, useEffect, Children } from 'react';
 import { useStoreon } from 'storeon/react';
 import styled from 'styled-components';
-import { ContinueIf, ReturnIf } from 'babel-plugin-transform-functional-return';
+import { ReturnIf } from 'babel-plugin-transform-functional-return';
 
-import Header from 'Component/EditorScreen/Header';
+import Header from './Header';
 
 // -----------------------------------------------------------------------------
 
@@ -36,7 +36,12 @@ const EditorScreen = memo(function EditorScreen(): JSX.Element {
 
 			{contentToCopy ? (
 				<GhostWriter>
-					<Writer contentEditable spellCheck="false" ref={writerRef} data-editor={true} />
+					<Writer
+						contentEditable
+						spellCheck={settings.spellcheck ? 'true' : 'false'}
+						ref={writerRef}
+						data-editor={true}
+					/>
 					<ErrorContent ref={errorRef} />
 					<GhostContent children={contentToCopy} />
 				</GhostWriter>
@@ -110,7 +115,7 @@ function onManagingEvents(
 							e.stopImmediatePropagation();
 							e.preventDefault();
 
-							if (settings.autocorrect_last_word_on_space) {
+							if (settings.autocorrect) {
 								const range: Range = window.getSelection().getRangeAt(0);
 								const node: Node =
 									range.startContainer === writerRef.current
@@ -127,11 +132,7 @@ function onManagingEvents(
 									: line.length;
 
 								if (index >= lastSpace) {
-									handleAutocorrectLastWord(
-										contentToCopy,
-										writerRef.current,
-										false,
-									);
+									handleAutocorrect(contentToCopy, writerRef.current, false);
 								}
 							}
 
@@ -160,8 +161,8 @@ function onManagingEvents(
 					}
 
 					//
-					if (settings.autocorrect_last_word_on_space && e.key === ' ') {
-						if (handleAutocorrectLastWord(contentToCopy, writerRef.current)) {
+					if (settings.autocorrect && e.key === ' ') {
+						if (handleAutocorrect(contentToCopy, writerRef.current)) {
 							e.stopImmediatePropagation();
 							e.preventDefault();
 							return;
@@ -297,11 +298,7 @@ function handleIgnorePunctuation(e: KeyboardEvent, contentToCopy: string, writer
 	return true;
 }
 
-function handleAutocorrectLastWord(
-	contentToCopy: string,
-	writer: Node,
-	addSpace: boolean = true,
-): boolean {
+function handleAutocorrect(contentToCopy: string, writer: Node, addSpace: boolean = true): boolean {
 	const range: Range = window.getSelection().getRangeAt(0);
 	const node: Node = range.startContainer === writer ? writer.lastChild : range.startContainer;
 	ReturnIf(node === null, false);
