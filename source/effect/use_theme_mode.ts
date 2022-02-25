@@ -1,5 +1,7 @@
-import { ReturnIf } from 'babel-plugin-transform-functional-return';
 import { useStoreon } from 'storeon/react';
+import { ReturnIf } from 'babel-plugin-transform-functional-return';
+
+import { darkModeTheme, lightModeTheme } from 'data/theme';
 
 // -----------------------------------------------------------------------------
 
@@ -20,21 +22,3 @@ export default function useThemeMode() {
 function getModeTheme(themeMode: string): GenericObject {
 	return themeMode === 'dark' ? darkModeTheme : lightModeTheme;
 }
-
-// -----------------------------------------------------------------------------
-
-const lightModeTheme = {
-	backgroundColor: '#fff',
-
-	sidebarBackgroundColor: '#f7f7f7',
-	sidebarForegroundColor: '#000',
-};
-
-// -----------------------------------------------------------------------------
-
-const darkModeTheme = {
-	backgroundColor: '#333',
-
-	sidebarBackgroundColor: '#666',
-	sidebarForegroundColor: '#FFF',
-};

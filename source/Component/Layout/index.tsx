@@ -1,8 +1,8 @@
 import { memo } from 'react';
-import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 
-import Sidebar from 'Component/Layout/Sidebar';
 import useThemeMode from 'effect/use_theme_mode';
+import Sidebar from 'Component/Layout/Sidebar';
 
 // -----------------------------------------------------------------------------
 
@@ -12,11 +12,16 @@ const GlobalStyle = createGlobalStyle`
 		font-family: 'Copse', serif;
 	}
 
-  html, body {
-	  background: ${(props: GenericObject) => props.theme.backgroundColor};
-	  height: 100%;
-	  margin: 0;
-  }`;
+	html, body {
+		height: 100%;
+		margin: 0;
+	}
+
+	body {
+		background: ${(props: GenericObject) => props.theme.backgroundColor};
+		color: ${(props: GenericObject) => props.theme.foregroundColor};
+	}
+  `;
 
 // -----------------------------------------------------------------------------
 
@@ -27,10 +32,20 @@ const Layout = memo(function Layout({ children }): JSX.Element {
 	return (
 		<ThemeProvider theme={theme}>
 			<GlobalStyle />
-			<Sidebar />
-			{children}
+			<Container>
+				<Sidebar />
+				{children}
+			</Container>
 		</ThemeProvider>
 	);
 });
 
 export default Layout;
+
+// -----------------------------------------------------------------------------
+
+const Container = styled.div`
+	align-content: flex-start;
+	display: flex;
+	height: 100%;
+`;

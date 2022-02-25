@@ -17,6 +17,10 @@ import SquaresIcon from 'Component/Icon/Squares';
 import ToggleOffIcon from 'Component/Icon/ToggleOff';
 import ToggleOnIcon from 'Component/Icon/ToggleOn';
 
+import Menu from 'Component/Menu';
+import MenuItem from 'Component/MenuItem';
+import MenuLink from 'Component/MenuLink';
+
 // -----------------------------------------------------------------------------
 
 const Sidebar = memo(function EditorScreenSidebar(): JSX.Element {
@@ -48,12 +52,12 @@ const Sidebar = memo(function EditorScreenSidebar(): JSX.Element {
 				<Menu>
 					<MenuLink>
 						<Link to="/playground">
-							<NewDocumentIcon /> New
+							<NewDocumentIcon /> New document
 						</Link>
 					</MenuLink>
 					<MenuLink>
 						<Link to="/library">
-							<SquaresIcon /> Library
+							<SquaresIcon /> Passage library
 						</Link>
 					</MenuLink>
 					<MenuLink disabled>
@@ -118,19 +122,14 @@ function lightDark(value: string) {
 
 const Container = styled.div`
 	background: ${(props) => props.theme.sidebarBackgroundColor};
-	bottom: 0;
-	color: ${(props) => props.theme.sidebarForegroundColor};
+	color: ${(props) => props.theme.foregroundColor};
 	display: flex;
 	flex-direction: column;
-	left: 0;
-	margin: auto;
+	flex-shrink: 0;
 	overflow-y: auto;
 	padding: 16px;
-	position: fixed;
-	top: 0;
 	user-select: none;
 	width: 333px;
-	z-index: 1000;
 `;
 
 const Section = styled.div`
@@ -154,62 +153,11 @@ const CloseButton = styled.div`
 	}
 `;
 
-const Menu = styled.div`
-	display: flex;
-	flex-direction: column;
-`;
-
 const MenuHeader = styled.div`
-	border-bottom: 1px ${(props) => props.theme.sidebarForegroundColor} solid;
+	border-bottom: 1px ${(props) => props.theme.foregroundColor} solid;
 	font-size: 0.9rem;
 	margin-bottom: 16px;
 	padding-bottom: 2px;
-`;
-
-const MenuItem = styled.div.attrs((props: GenericObject) => ({ disabled: props.disabled }))`
-	align-items: center;
-	display: flex;
-	flex-shrink: 0;
-	font-size: 1.1rem;
-	opacity: ${(props) => (props.disabled ? '0.5' : 1)};
-	pointer-events: ${(props) => (props.disabled ? 'none' : 'all')};
-
-	& svg {
-		height: 18px;
-		margin-right: 8px;
-		width: 18px;
-	}
-
-	& + & {
-		margin-top: 16px;
-	}
-`;
-
-const MenuLink = styled(MenuItem)`
-	align-items: center;
-	display: flex;
-	position: relative;
-
-	& a {
-		align-items: center;
-		color: ${(props) => props.theme.sidebarForegroundColor};
-		display: flex;
-		flex-grow: 1;
-		text-decoration: none;
-	}
-
-	&:hover:after {
-		border: 1px ${(props) => props.theme.sidebarForegroundColor} solid;
-		border-radius: 4px;
-		bottom: -4px;
-		content: '';
-		left: -4px;
-		pointer-events: none;
-		position: absolute;
-		right: -4px;
-		top: -4px;
-		z-index: -1;
-	}
 `;
 
 const MenuOption = styled(MenuItem)`
@@ -240,7 +188,7 @@ const Copyright = styled.div`
 	opacity: 0.66;
 
 	& a {
-		color: blue;
+		color: ${(props) => props.theme.sidebarCreatorColor};
 		text-decoration: none;
 	}
 `;
