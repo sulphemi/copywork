@@ -1,15 +1,19 @@
 import { memo } from 'react';
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 
-import useThemeMode from 'effect/use_theme_mode';
-import Sidebar from 'Component/Layout/Sidebar';
+import useTheme from 'effect/use_theme';
+
+import Header from './Header';
+import PassageLibrary from './PassageLibrary';
+import Sidebar from './Sidebar';
 
 // -----------------------------------------------------------------------------
 
 const GlobalStyle = createGlobalStyle`
 	* {
+		transition: all 250ms;
 		box-sizing: border-box;
-		font-family: 'Copse', serif;
+		font-family: ${(props: GenericObject) => props.theme.font || 'Copse'}, serif;
 	}
 
 	html, body {
@@ -26,14 +30,16 @@ const GlobalStyle = createGlobalStyle`
 // -----------------------------------------------------------------------------
 
 const Layout = memo(function Layout({ children }): JSX.Element {
-	const theme = useThemeMode();
+	const theme = useTheme();
 
 	//
 	return (
 		<ThemeProvider theme={theme}>
 			<GlobalStyle />
 			<Container>
+				<Header />
 				<Sidebar />
+				<PassageLibrary />
 				{children}
 			</Container>
 		</ThemeProvider>

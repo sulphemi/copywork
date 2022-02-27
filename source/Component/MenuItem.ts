@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const MenuItem = styled.div.attrs((props: GenericObject) => ({ disabled: props.disabled }))`
 	align-items: center;
+	cursor: pointer;
 	display: flex;
 	flex-shrink: 0;
 	font-size: 1.1rem;

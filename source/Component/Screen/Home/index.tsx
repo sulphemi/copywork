@@ -7,6 +7,7 @@ import SquaresIcon from 'Component/Icon/Squares';
 
 import Menu from 'Component/Menu';
 import MenuLink from 'Component/MenuLink';
+import MenuButton from 'Component/MenuButton';
 
 // -----------------------------------------------------------------------------
 
@@ -16,25 +17,28 @@ const HomeScreen = memo(function HomeScreen(): JSX.Element {
 			<Content>
 				<Title>Hello, this is Copywork</Title>
 
-				<Paragraph>
-					Polish your writing style by copying passages of great writers (or your next
-					copywriting client). Think of it as keboard karaoke!
-				</Paragraph>
+				<Copy>
+					<Paragraph>
+						Polish your writing style by copying passages of great writers (or your next
+						copywriting client). Think of it as keboard karaoke!
+					</Paragraph>
 
-				<Paragraph>
-					Paste in a paste to get started or select from our curated library.
-				</Paragraph>
+					<Paragraph>
+						Get started with one of our curated passages or paste some text in a new
+						document.
+					</Paragraph>
+				</Copy>
 
-				<Menu style={{ marginTop: '32px' }}>
+				<Menu>
 					<MenuLink>
 						<Link to="/playground">
 							<NewDocumentIcon /> New document
 						</Link>
 					</MenuLink>
 					<MenuLink>
-						<Link to="/library">
+						<MenuButton>
 							<SquaresIcon /> Passage library
-						</Link>
+						</MenuButton>
 					</MenuLink>
 				</Menu>
 			</Content>
@@ -49,6 +53,7 @@ export default HomeScreen;
 const Container = styled.div`
 	flex-grow: 1;
 	padding: 5vw;
+	padding-top: max(52px, 5vw);
 `;
 
 const Content = styled.div`
@@ -62,6 +67,10 @@ const Content = styled.div`
 const Title = styled.h1`
 	font-size: 1.25rem;
 	margin: 0 0 20px 0;
+`;
+
+const Copy = styled.div`
+	margin-bottom: 32px;
 `;
 
 const Paragraph = styled.p`

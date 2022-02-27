@@ -17,17 +17,23 @@ const MenuLink = styled(MenuItem)`
 		text-decoration: none;
 	}
 
-	&:hover:after {
+	&:after {
 		border: 1px ${(props) => props.theme.foregroundColor} solid;
 		border-radius: 4px;
 		bottom: -4px;
 		content: '';
 		left: -4px;
+		opacity: 0;
 		pointer-events: none;
 		position: absolute;
 		right: -4px;
 		top: -4px;
-		z-index: -1;
+		transition: all 250ms;
+		z-index: 0;
+	}
+
+	&:hover:after {
+		opacity: 1;
 	}
 `;
 

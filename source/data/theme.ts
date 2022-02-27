@@ -1,6 +1,6 @@
 export const lightModeTheme = {
 	backgroundColor: '#FFF',
-	foregroundColor: '#000',
+	foregroundColor: '#333',
 
 	sidebarBackgroundColor: '#f7f7f7',
 	sidebarCreatorColor: '#00F',
@@ -9,9 +9,9 @@ export const lightModeTheme = {
 // -----------------------------------------------------------------------------
 
 export const darkModeTheme = {
-	backgroundColor: '#333',
-	foregroundColor: '#FFF',
+	backgroundColor: '#36393F',
+	foregroundColor: '#ccc',
 
-	sidebarBackgroundColor: '#666',
+	sidebarBackgroundColor: '#2F3135',
 	sidebarCreatorColor: '#AFF',
 };

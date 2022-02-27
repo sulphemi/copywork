@@ -1,0 +1,293 @@
+[
+	{
+		"id": "1",
+		"text": "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.",
+		"author": "Charles Dickens",
+		"title": "A Tale of Two Cities",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "2",
+		"text": "Two roads diverged in a wood, and I—\nI took the one less traveled by,\nAnd that has made all the difference.",
+		"author": "Robert Frost",
+		"title": "The Road Not Taken",
+		"category": ["Poetry"],
+		"dont_reformat": true
+	},
+	{
+		"id": "3",
+		"text": "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
+		"author": "Jane Austen",
+		"title": "Pride and Prejudice",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "4",
+		"text": "Because I could not stop for Death -\nHe kindly stopped for me -\nThe Carriage held but just Ourselves -\nAnd Immortality.",
+		"author": "Emily Dickinson",
+		"title": "Because I could not stop for Death",
+		"category": ["Poetry"],
+		"dont_reformat": true
+	},
+	{
+		"id": "5",
+		"text": "Don't ever tell anybody anything. If you do, you start missing everybody.",
+		"author": "J.D. Salinger",
+		"title": "The Catcher in the Rye",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "6",
+		"text": "…and Gibraltar as a girl where I was a Flower of the mountain yes when I put the rose in my hair like the Andalusian girls used or shall I wear a red yes and how he kissed me under the Moorish wall and I thought well as well him as another and then I asked him with my eyes to ask again yes and then he asked me would I yes to say yes my mountain flower and first I put my arms around him yes and drew him down to me so he could feel my breasts all perfume yes and his heart was going like mad and yes I said yes I will Yes.",
+		"author": "James Joyce",
+		"title": "Ulyssses",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "7",
+		"text": "Happy families are all alike; every unhappy family is unhappy in its own way.",
+		"author": "Leo Tolstoy",
+		"title": "Anna Karenina",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "8",
+		"text": "As Gregor Samsa awoke one morning from uneasy dreams he found himself transformed in his bed into a gigantic insect.",
+		"author": "Franz Kafka",
+		"title": "The Metamorphosis",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "9",
+		"text": "The only people for me are the mad ones, the ones who are mad to live, mad to talk, mad to be saved, desirous of everything at the same time, the ones who never yawn or say a commonplace thing, but burn, burn, burn like fabulous yellow roman candles exploding like spiders across the stars.",
+		"author": "Jack Kerouac",
+		"title": "On The Road",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "10",
+		"text": "I took a deep breath and listened to the old brag of my heart. I am, I am, I am.",
+		"author": "Sylvia Plath",
+		"title": "The Bell Jar",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "11",
+		"text": "This is the way the world ends\nThis is the way the world ends\nThis is the way the world ends\nNot with a bang but a whimper",
+		"author": "T.S. Eliot",
+		"title": "The Hollow Men",
+		"category": ["Poetry"],
+		"dont_reformat": true
+	},
+	{
+		"id": "12",
+		"text": "Mother died today. Or, maybe, yesterday; I can't be sure.",
+		"author": "Albert Camus",
+		"title": "The Stranger",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "13",
+		"text": ". . . this is how to make a good medicine for a cold; this is how to make a good medicine to throw away a child before it even becomes a child; this is how to catch a fish; this is how to throw back a fish you don't like, and that way something bad won't fall on you; this is how to bully a man; this is how a man bullies you; this is how to love a man; and if this doesn't work there are other ways, and if they don't work don't feel too bad about giving up; this is how to spit up in the air if you feel like it, and this is how to move quick so that it doesn't fall on you; this is how to make ends meet; always squeeze bread to make sure it's fresh; but what if the baker won't let me feel the bread?; you mean to say that after all you are really going to be the kind of woman who the baker won't let near the bread?",
+		"author": "Jamaica Kincaid",
+		"title": "Girl",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "14",
+		"text": "I have eaten\nthe plums\nthat were in\nthe icebox\n\nand which\nyou were probably\nsaving\nfor breakfast\n\nForgive me\nthey were delicious\nso sweet\nand so cold",
+		"author": "William Carlos Williams",
+		"title": "This is Just to Say",
+		"category": ["Poetry"],
+		"dont_reformat": true
+	},
+	{
+		"id": "15",
+		"text": "Mrs. Dalloway said she would buy the flowers herself.",
+		"author": "Virginia Woolf",
+		"title": "Mrs. Dalloway",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "16",
+		"text": "The most beautiful things in the world cannot be seen or touched, they are felt with the heart.",
+		"author": "Antoine de Saint-Exupéry",
+		"title": "The Little Prince",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "17",
+		"text": "A heart is not judged by how much you love; but by how much you are loved by others.",
+		"author": "L. Frank Baum",
+		"title": "The Wonderful Wizard of Oz",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "18",
+		"text": "Why, sometimes I've believed as many as six impossible things before breakfast.",
+		"author": "Lewis Carroll",
+		"title": "Alice's Adventures in Wonderland",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "19",
+		"text": "We are all in the gutter, but some of us are looking at the stars.",
+		"author": "Oscar Wilde",
+		"title": "Lady Windermere's Fan",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "20",
+		"text": "I must not fear. Fear is the mind-killer. Fear is the little-death that brings total obliteration. I will face my fear. I will permit it to pass over me and through me. And when it has gone past I will turn the inner eye to see its path. Where the fear has gone there will be nothing. Only I will remain.",
+		"author": "Frank Herbert",
+		"title": "Dune",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "21",
+		"text": "There is no greater agony than bearing an untold story inside you.",
+		"author": "Maya Angelou",
+		"title": "I Know Why the Caged Bird Sings",
+		"category": ["Poetry"]
+	},
+	{
+		"id": "22",
+		"text": "All the world's a stage,\nAnd all the men and women merely players:\nThey have their exits and their entrances;\nAnd one man in his time plays many parts.",
+		"author": "William Shakespeare",
+		"title": "As You Like It",
+		"category": ["Play"]
+	},
+	{
+		"id": "23",
+		"text": "Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage, against the dying of the light.",
+		"author": "Dylan Thomas",
+		"title": "Do not go gentle into that good night",
+		"category": ["Poetry"],
+		"dont_reformat": true
+	},
+	{
+		"id": "24",
+		"text": "And so we beat on, boats against the current, borne back ceaselessly into the past.",
+		"author": "Scott Fitzgerald",
+		"title": "The Great Gatsby",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "25",
+		"text": "They fuck you up, your mum and dad.\nThey may not mean to, but they do.\nThey fill you with the faults they had\nAnd add some extra, just for you.",
+		"author": "Philip Larkin",
+		"title": "This Be the Verse",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "26",
+		"text": "I celebrate myself, and sing myself,\nAnd what I assume you shall assume,\nFor every atom belonging to me as good belongs to you.",
+		"author": "Walt Whitman",
+		"title": "Song of Myself",
+		"category": ["Poetry"],
+		"dont_reformat": true
+	},
+	{
+		"id": "27",
+		"text": "To be, or not to be: that is the question:\nWhether 'tis nobler in the mind to suffer\nThe slings and arrows of outrageous fortune,\nOr to take arms against a sea of troubles,\nAnd by opposing end them. To die: to sleep...",
+		"author": "William Shakespeare",
+		"title": "Hamlet",
+		"category": ["Play"]
+	},
+	{
+		"id": "28",
+		"text": "I wanted you to see what real courage is, instead of getting the idea that courage is a man with a gun in his hand. It's when you know you're licked before you begin, but you begin anyway and see it through no matter what.",
+		"author": "Harper Lee",
+		"title": "To Kill a Mockingbird",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "29",
+		"text": "Tyger Tyger, burning bright,\nIn the forests of the night;\nWhat immortal hand or eye,\nCould frame thy fearful symmetry?",
+		"author": "William Blake",
+		"title": "The Tyger",
+		"category": ["Poetry"],
+		"dont_reformat": true
+	},
+	{
+		"id": "30",
+		"text": "She had waited all her life for something, and it had killed her when it found her.",
+		"author": "Zora Neale Hurston",
+		"title": "Their Eyes Were Watching God",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "31",
+		"text": "Turning and turning in the widening gyre\nThe falcon cannot hear the falconer;\nThings fall apart; the centre cannot hold;\nMere anarchy is loosed upon the world,\nThe blood-dimmed tide is loosed, and everywhere\nThe ceremony of innocence is drowned;\nThe best lack all conviction, while the worst\nAre full of passionate intensity.",
+		"author": "William Butler Yeats",
+		"title": "The Second Coming",
+		"category": ["Poetry"],
+		"dont_reformat": true
+	},
+	{
+		"id": "32",
+		"text": "There is nothing like looking, if you want to find something. You certainly usually find something, if you look, but it is not always quite the something you were after.",
+		"author": "J.R.R. Tolkien",
+		"title": "The Hobbit",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "33",
+		"text": "I am an invisible man. No, I am not a spook like those who haunted Edgar Allan Poe; nor am I one of your Hollywood-movie ectoplasms. I am a man of substance, of flesh and bone, fiber and liquids—and I might even be said to possess a mind. I am invisible, understand, simply because people refuse to see me.",
+		"author": "Ralph Ellison",
+		"title": "Invisible Man",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "34",
+		"text": "Because it is my name! Because I cannot have another in my life! Because I lie and sign myself to lies! Because I am not worth the dust on the feet of them that hang! How may I live without my name? I have given you my soul; leave me my name!",
+		"author": "Arthur Miller",
+		"title": "The Crucible",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "35",
+		"text": "He who has felt the deepest grief is best able to experience supreme happiness. Live, then, and be happy, beloved children of my heart, and never forget, that until the day God will deign to reveal the future to man, all human wisdom is contained in these two words: “Wait and Hope.”",
+		"author": "Alexandre Dumas",
+		"title": "The Count of Monte Cristo",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "36",
+		"text": "It was a dark and stormy night; the rain fell in torrents, except at occasional intervals, when it was checked by a violent gust of wind which swept up the streets (for it is in London that our scene lies), rattling along the house-tops, and fiercely agitating the scanty flame of the lamps that struggled against the darkness.",
+		"author": "Edward George Bulwer-Lytton",
+		"title": "Paul Clifford",
+		"category": ["Fiction"]
+	},
+	{
+		"id": "37",
+		"text": "I wandered lonely as a cloud\nThat floats on high o'er vales and hills,\nWhen all at once I saw a crowd,\nA host of golden daffodils;\nBeside the lake, beneath the trees,\nFluttering and dancing in the breeze.",
+		"author": "William Wordsworth",
+		"title": "I wandered lonely as a cloud",
+		"category": ["Poetry"],
+		"dont_reformat": true
+	},
+	{
+		"id": "38",
+		"text": "It matters not how strait the gate,\nHow charged with punishments the scroll,\nI am the master of my fate,\nI am the captain of my soul.",
+		"author": "William Ernest Henley",
+		"title": "Invictus",
+		"category": ["Poetry"],
+		"dont_reformat": true
+	},
+	{
+		"id": "39",
+		"text": "I do not like them in a house.\nI do not like them with a mouse.\nI do not like them here or there.\nI do not like them anywhere.\nI do not like green eggs and ham.\nI do not like them, Sam-I-Am.",
+		"author": "Dr. Seuss",
+		"title": "Green Eggs and Ham",
+		"category": ["Poetry"],
+		"dont_reformat": true
+	},
+	{
+		"id": "40",
+		"text": "Shall I compare thee to a summer's day?\nThou art more lovely and more temperate:\nRough winds do shake the darling buds of May,\nAnd summer's lease hath all too short a date",
+		"author": "William Shakespeare",
+		"title": "Sonnet",
+		"category": ["Play"]
+	}
+]

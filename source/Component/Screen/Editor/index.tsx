@@ -1,9 +1,10 @@
-import { memo, useRef, useState, RefObject, useEffect, Children } from 'react';
+import { memo, useRef, useState, RefObject, useEffect } from 'react';
 import { useStoreon } from 'storeon/react';
+import { useParams } from 'react-router';
 import styled from 'styled-components';
 import { ReturnIf } from 'babel-plugin-transform-functional-return';
 
-import Header from './Header';
+import Library from 'data/library.json';
 
 // -----------------------------------------------------------------------------
 
@@ -15,9 +16,20 @@ const EditorScreen = memo(function EditorScreen(): JSX.Element {
 	const writerRef: RefObject<HTMLDivElement> = useRef();
 	const errorRef: RefObject<HTMLDivElement> = useRef();
 
+	const { id } = useParams();
+	const libraryContent = Library[id];
+	const libraryContentText = libraryContent
+		? libraryContent?.text
+				.replace(/ +/g, ' ')
+				.replace(/\t/g, '')
+				.replace(/\r/g, '')
+				.replace(/\n{1,}/g, '\n\n')
+				.trim()
+		: undefined;
+
 	//
 	const { settings = {} } = useStoreon('settings');
-	const [contentToCopy, setContentToCopy] = useState(undefined as string);
+	const [contentToCopy, setContentToCopy] = useState(libraryContentText);
 
 	//
 	useEffect(onManagingEvents(contentToCopy, setContentToCopy, writerRef, errorRef, settings), [
@@ -27,27 +39,24 @@ const EditorScreen = memo(function EditorScreen(): JSX.Element {
 	]);
 
 	//
-	const onStartOver = onStartOverFactory(contentToCopy, setContentToCopy);
-
-	//
 	return (
 		<Container>
-			<Header onStartOver={onStartOver} />
-
-			{contentToCopy ? (
-				<GhostWriter>
-					<Writer
-						contentEditable
-						spellCheck={settings.spellcheck ? 'true' : 'false'}
-						ref={writerRef}
-						data-editor={true}
-					/>
-					<ErrorContent ref={errorRef} />
-					<GhostContent children={contentToCopy} />
-				</GhostWriter>
-			) : (
-				<PasteContainer children="Paste something..." />
-			)}
+			<Content>
+				{contentToCopy ? (
+					<GhostWriter>
+						<Writer
+							contentEditable
+							spellCheck={settings.spellcheck ? 'true' : 'false'}
+							ref={writerRef}
+							data-editor={true}
+						/>
+						<ErrorContent ref={errorRef} />
+						<GhostContent children={contentToCopy} />
+					</GhostWriter>
+				) : (
+					<PasteContainer children="Paste something..." />
+				)}
+			</Content>
 		</Container>
 	);
 });
@@ -375,11 +384,16 @@ function getNextSpace(text: string, offset: number): number {
 // -----------------------------------------------------------------------------
 
 const Container = styled.div`
+	flex-grow: 1;
+	padding: 5vw;
+	padding-top: max(52px, 5vw);
+`;
+
+const Content = styled.div`
 	display: flex;
 	flex-direction: column;
-	margin: auto;
-	max-width: 8.5in;
-	position: relative;
+	margin: 0 auto;
+	max-width: 512px;
 	width: 100%;
 `;
 
@@ -388,7 +402,7 @@ const PasteContainer = styled.div`
 	flex-grow: 1;
 	font-size: 1.5rem;
 	padding: 5vw 1vw;
-	user-select: none;
+	user-select: all;
 	display: flex;
 	justify-content: center;
 `;

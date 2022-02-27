@@ -9,7 +9,6 @@ import ErrorBoundary from 'Component/ErrorBoundary';
 import EditorScreen from 'Component/Screen/Editor';
 import HomeScreen from 'Component/Screen/Home';
 import NotFoundScreen from 'Component/Screen/NotFound';
-import LibraryScreen from 'Component/Screen/Library';
 
 import Layout from 'Component/Layout';
 
@@ -32,14 +31,20 @@ function App(): JSX.Element {
 				<Layout>
 					<ErrorBoundary>
 						<Routes>
-							<Route path="/library" element={<LibraryScreen />} />
-							<Route path="/playground" element={<EditorScreen />} />
 							<Route path="/" element={<HomeScreen />} />
-							<Route element={<NotFoundScreen />} />
+							<Route path="/playground/:id" element={<PlaygroundRoute />} />
+							<Route path="/playground" element={<PlaygroundRoute />} />
+							<Route path="*" element={<NotFoundScreen />} />
 						</Routes>
 					</ErrorBoundary>
 				</Layout>
 			</StoreContext.Provider>
 		</BrowserRouter>
 	);
+}
+
+// -----------------------------------------------------------------------------
+
+function PlaygroundRoute() {
+	return <EditorScreen key={String(new Date())} />;
 }
