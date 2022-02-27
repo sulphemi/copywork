@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "npx webpack serve --config webpack/development.js",
 		"start-server-only": "npx webpack serve --config webpack/development.js",
-		"build": "rm -rf docs && npx webpack --mode production --config webpack/production.js",
+		"build": "rm -rf docs && npx webpack --mode production --config webpack/production.js && cp ./source/404.html ./docs",
 		"analyze": "npx webpack --mode production --config webpack/analyze.js",
 		"tunnel": "npx localtunnel --port 8888 --subdomain copywork",
 		"test": "echo \"Error: no test specified\" && exit 1"
