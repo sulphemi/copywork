@@ -17,21 +17,38 @@ const EditorScreen = memo(function EditorScreen(): JSX.Element {
 	const errorRef: RefObject<HTMLDivElement> = useRef();
 
 	const { id } = useParams();
-	const libraryContent = Library[id];
-	const libraryContentText = libraryContent
-		? libraryContent?.text
-				.replace(/ +/g, ' ')
-				.replace(/\t/g, '')
-				.replace(/\r/g, '')
-				.replace(/\n{1,}/g, '\n\n')
-				.trim()
-		: undefined;
 
 	//
 	const { settings = {} } = useStoreon('settings');
-	const [contentToCopy, setContentToCopy] = useState(libraryContentText);
+	const [contentToCopy, setContentToCopy] = useState(undefined as string);
 
 	//
+	useEffect(() => {
+		if (id) {
+			const libraryContent = Library[id];
+			const libraryContentText = libraryContent
+				? libraryContent?.text
+						.replace(/ +/g, ' ')
+						.replace(/\t/g, '')
+						.replace(/\r/g, '')
+						.replace(/\n{1,}/g, '\n\n')
+						.trim()
+				: undefined;
+			setContentToCopy(libraryContentText);
+		} else {
+			setContentToCopy(undefined as string);
+		}
+
+		//
+		const writer = writerRef.current;
+		const error = errorRef.current;
+		setTimeout(() => {
+			writer && (writer.innerHTML = '');
+			error && (error.innerHTML = '');
+		});
+		setTimeout(() => writer?.focus(), 100);
+	}, [id]);
+
 	useEffect(onManagingEvents(contentToCopy, setContentToCopy, writerRef, errorRef, settings), [
 		contentToCopy,
 		setContentToCopy,
@@ -75,9 +92,8 @@ function onManagingEvents(
 	return () => {
 		const onClick = contentToCopy
 			? (e: MouseEvent) => {
-					const target = e.target as HTMLDivElement;
-
-					if (!target.dataset.editor) {
+					const target = e.target as HTMLElement;
+					if (!target.dataset.editor && !target.dataset.dontstealfocus) {
 						// set cursor to end of writer component
 						// https://stackoverflow.com/a/3866442/7400022
 						const range = document.createRange();
@@ -94,6 +110,10 @@ function onManagingEvents(
 		const onPaste = contentToCopy
 			? disableNormalEventBehavor
 			: (e: ClipboardEvent) => {
+					const target = e.target as HTMLElement;
+					ReturnIf(target.dataset.dontstealfocus);
+
+					//
 					disableNormalEventBehavor(e);
 
 					//
@@ -116,6 +136,10 @@ function onManagingEvents(
 
 		const onKeydown = contentToCopy
 			? (e: KeyboardEvent) => {
+					const target = e.target as HTMLElement;
+					ReturnIf(target.dataset.dontstealfocus);
+
+					//
 					ReturnIf(e.metaKey || e.altKey || e.ctrlKey);
 
 					switch (true) {
@@ -200,10 +224,6 @@ function onManagingEvents(
 	};
 }
 
-function onStartOverFactory(contentToCopy: string, setContentToCopy: Function): Function {
-	return contentToCopy ? () => setContentToCopy(undefined) : undefined;
-}
-
 function disableNormalEventBehavor(e: Event) {
 	e.stopPropagation();
 	e.preventDefault();
@@ -214,7 +234,11 @@ function checkUserProgress(
 	writerRef: RefObject<HTMLDivElement>,
 	errorRef: RefObject<HTMLDivElement>,
 ) {
-	return () => {
+	return (e) => {
+		const target = e.target as HTMLElement;
+		ReturnIf(!target.dataset.dontstealfocus);
+
+		//
 		const text: string = writerRef.current.innerText;
 
 		//
@@ -260,7 +284,9 @@ function checkUserProgress(
 function wouldCreateConsecutiveSpaces(writer: Node): boolean {
 	const range = window.getSelection().getRangeAt(0);
 	const index =
-		range.startContainer === writer ? writer.lastChild.textContent.length : range.startOffset;
+		range.startContainer === writer
+			? writer.lastChild?.textContent.length || 0
+			: range.startOffset;
 	const node = range.startContainer === writer ? writer.lastChild : range.startContainer;
 	const line = node.textContent;
 
@@ -279,9 +305,12 @@ function handleIgnorePunctuation(e: KeyboardEvent, contentToCopy: string, writer
 
 	//
 	const range: Range = window.getSelection().getRangeAt(0);
-	const node: Node = range.startContainer === writer ? writer.lastChild : range.startContainer;
+	const node: Node =
+		range.startContainer === writer ? writer.lastChild || writer : range.startContainer;
 	const index: number =
-		range.startContainer === writer ? writer.lastChild.textContent.length : range.startOffset;
+		range.startContainer === writer
+			? writer.lastChild?.textContent.length || 0
+			: range.startOffset;
 
 	const line = getCurrentLine(contentToCopy, node);
 	const letter: string = line[index];
@@ -295,9 +324,9 @@ function handleIgnorePunctuation(e: KeyboardEvent, contentToCopy: string, writer
 	}
 
 	//
-	node.textContent = `${node.textContent.slice(0, index)}${letter}${node.textContent.slice(
-		index,
-	)}`;
+	node.textContent = `${node?.textContent.slice(0, index) || ''}${letter}${
+		node?.textContent.slice(index) || ''
+	}`;
 
 	//
 	range.setStart(node, index + 1);
@@ -314,7 +343,9 @@ function handleAutocorrect(contentToCopy: string, writer: Node, addSpace: boolea
 
 	//
 	const index: number =
-		range.startContainer === writer ? writer.lastChild.textContent.length : range.startOffset;
+		range.startContainer === writer
+			? writer.lastChild?.textContent.length || 0
+			: range.startOffset;
 	const line = getCurrentLine(contentToCopy, node);
 	const entered = node.textContent;
 	const start = getPreviousSpace(entered, index);
@@ -349,7 +380,7 @@ function getCurrentLineIndex(node: Node): number {
 	let lineIndex: number = 0;
 	let offset: number = 0;
 	let lastChild = null;
-	for (let i: number = 0; i < node.parentNode.childNodes.length; i++) {
+	for (let i: number = 0; i < node?.parentNode.childNodes.length || 0; i++) {
 		const child: Node = node.parentNode.childNodes[i];
 
 		if (child.textContent === '\n' && lastChild?.textContent === '\n') {

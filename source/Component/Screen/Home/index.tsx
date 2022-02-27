@@ -2,6 +2,8 @@ import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { showPassages } from 'store/action/passages';
+
 import NewDocumentIcon from 'Component/Icon/NewDocument';
 import SquaresIcon from 'Component/Icon/Squares';
 
@@ -36,7 +38,7 @@ const HomeScreen = memo(function HomeScreen(): JSX.Element {
 						</Link>
 					</MenuLink>
 					<MenuLink>
-						<MenuButton>
+						<MenuButton onClick={showPassages}>
 							<SquaresIcon /> Passage library
 						</MenuButton>
 					</MenuLink>

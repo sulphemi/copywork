@@ -1,9 +1,11 @@
 import { memo, RefObject, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useStoreon } from 'storeon/react';
 import styled from 'styled-components';
 import { ReturnIf } from 'babel-plugin-transform-functional-return';
-import { hidePassages } from 'store/action/passages';
 import sortBy from 'lodash/sortBy';
+
+import { hidePassages } from 'store/action/passages';
 
 import LeftArrowIcon from 'Component/Icon/LeftArrow';
 import EyeglassIcon from 'Component/Icon/Eyeglass';
@@ -12,26 +14,6 @@ import MenuButton from 'Component/MenuButton';
 import Section from 'Component/Section';
 
 import Library from 'data/library.json';
-import { Link } from 'react-router-dom';
-
-// -----------------------------------------------------------------------------
-
-const LibraryByCategory = Library.reduce((obj, entry) => {
-	const keys = entry.category;
-
-	keys.forEach((key) => {
-		const entries = obj[key] || [];
-		obj[key] = entries;
-
-		entries.push(entry);
-	});
-
-	return obj;
-}, {});
-
-const LibraryCategories = Object.keys(LibraryByCategory).sort();
-
-LibraryCategories.forEach((key) => sortBy(LibraryByCategory[key], ['author', 'name']));
 
 // -----------------------------------------------------------------------------
 
@@ -40,8 +22,41 @@ const PassageLibrary = memo(function PassageLibrary(): JSX.Element {
 	const containerRef: RefObject<HTMLDivElement> = useRef();
 
 	//
-	const [searchTerms, setSearchTerms] = useState(undefined as string[]);
+	const [searchTermsRaw, setSearchTermsRaw] = useState('' as string);
 	const [collapsedCategory, setCollapsedCategory] = useState({} as GenericObject);
+
+	//
+	const searchTerms =
+		searchTermsRaw.length > 0
+			? (searchTermsRaw || '').toLocaleLowerCase().trim().split(/\ +/g)
+			: undefined;
+	const libraryByCategory = Library.reduce((obj, entry) => {
+		const keys = entry.category;
+
+		keys.forEach((key) => {
+			const entries = obj[key] || [];
+			obj[key] = entries;
+
+			ReturnIf(!searchTerms, entries.push(entry));
+
+			//
+			if (
+				searchTerms.every((searchTerm) => {
+					return (
+						entry.author.toLocaleLowerCase().includes(searchTerm) ||
+						entry.title.toLocaleLowerCase().includes(searchTerm)
+					);
+				})
+			) {
+				entries.push(entry);
+			}
+		});
+
+		return obj;
+	}, {});
+
+	const libraryCategories = Object.keys(libraryByCategory).sort();
+	libraryCategories.forEach((key) => sortBy(libraryByCategory[key], ['author', 'name']));
 
 	//
 	return (
@@ -64,12 +79,18 @@ const PassageLibrary = memo(function PassageLibrary(): JSX.Element {
 				<Section>
 					<SearchInput>
 						<EyeglassIcon />
-						<input type="search" placeholder="Search..." />
+						<input
+							type="search"
+							placeholder="Search..."
+							value={searchTermsRaw}
+							onChange={(e) => setSearchTermsRaw(e.target.value)}
+							data-dontstealfocus="1"
+						/>
 					</SearchInput>
 				</Section>
 				<Section grow>
-					{LibraryCategories.map((category) => {
-						const entries = LibraryByCategory[category] || [];
+					{libraryCategories.map((category) => {
+						const entries = libraryByCategory[category] || [];
 						const isCollapsed = collapsedCategory[category];
 
 						//
@@ -94,7 +115,9 @@ const PassageLibrary = memo(function PassageLibrary(): JSX.Element {
 										return (
 											<Entry
 												to={`/playground/${entry.id}`}
-												onClick={hidePassages}
+												onClick={() => {
+													hidePassages();
+												}}
 											>
 												{entry.title}
 												<EntryAuthor>{entry.author}</EntryAuthor>

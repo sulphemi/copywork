@@ -32,8 +32,8 @@ function App(): JSX.Element {
 					<ErrorBoundary>
 						<Routes>
 							<Route path="/" element={<HomeScreen />} />
-							<Route path="/playground/:id" element={<PlaygroundRoute />} />
-							<Route path="/playground" element={<PlaygroundRoute />} />
+							<Route path="/playground/:id" element={<EditorScreen />} />
+							<Route path="/playground" element={<EditorScreen />} />
 							<Route path="*" element={<NotFoundScreen />} />
 						</Routes>
 					</ErrorBoundary>
@@ -41,10 +41,4 @@ function App(): JSX.Element {
 			</StoreContext.Provider>
 		</BrowserRouter>
 	);
-}
-
-// -----------------------------------------------------------------------------
-
-function PlaygroundRoute() {
-	return <EditorScreen key={String(new Date())} />;
 }

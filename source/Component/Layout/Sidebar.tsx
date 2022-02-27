@@ -25,6 +25,7 @@ import MenuButton from 'Component/MenuButton';
 import MenuItem from 'Component/MenuItem';
 import MenuLink from 'Component/MenuLink';
 import Section from 'Component/Section';
+import { showPassages } from 'store/action/passages';
 
 // -----------------------------------------------------------------------------
 
@@ -76,17 +77,32 @@ const Sidebar = memo(function Sidebar(): JSX.Element {
 				<Section>
 					<Menu>
 						<MenuLink>
-							<Link to="/playground" tabIndex={sidebarShow ? null : -1}>
+							<Link
+								to="/playground"
+								onClick={hideSidebar}
+								tabIndex={sidebarShow ? null : -1}
+							>
 								<NewDocumentIcon /> New document
 							</Link>
 						</MenuLink>
 						<MenuLink>
-							<Link to="#" tabIndex={sidebarShow ? null : -1}>
+							<Link
+								to="#"
+								onClick={() => {
+									hideSidebar();
+									showPassages();
+								}}
+								tabIndex={sidebarShow ? null : -1}
+							>
 								<SquaresIcon /> Passage library
 							</Link>
 						</MenuLink>
 						<MenuLink disabled>
-							<Link to="/statistics" tabIndex={sidebarShow ? null : -1}>
+							<Link
+								to="/statistics"
+								onClick={hideSidebar}
+								tabIndex={sidebarShow ? null : -1}
+							>
 								<ChartIcon /> Your stats (coming soon)
 							</Link>
 						</MenuLink>
