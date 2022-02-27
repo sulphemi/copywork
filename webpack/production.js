@@ -11,7 +11,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 // -----------------------------------------------------------------------------
 
-const { ENVIRONMENT = 'development' } = process.env;
+const { ENVIRONMENT = 'production' } = process.env;
 
 // -----------------------------------------------------------------------------
 

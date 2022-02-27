@@ -14,19 +14,23 @@ import Layout from 'Component/Layout';
 
 // -----------------------------------------------------------------------------
 
+const basename = ENVIRONMENT == 'production' ? '/copywork' : '';
+
+// -----------------------------------------------------------------------------
+
 export default function renderApp(): void {
 	render(<App />, document.body);
 
 	// remove loader components
 	const components = document.querySelectorAll('[data-preloader="true"]');
-	[].forEach.call(components, (component) => component.parentNode.removeChild(component));
+	[].forEach.call(components, (component: Node) => component.parentNode.removeChild(component));
 }
 
 // -----------------------------------------------------------------------------
 
 function App(): JSX.Element {
 	return (
-		<BrowserRouter>
+		<BrowserRouter basename={basename}>
 			<StoreContext.Provider value={Store}>
 				<Layout>
 					<ErrorBoundary>

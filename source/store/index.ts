@@ -34,7 +34,7 @@ function initialStoreState() {
 		theme: document.documentElement.getAttribute('data-preferred-theme') || 'light',
 		font: 'Copse',
 		sidebar_show: false,
-		passages_show: true,
+		passages_show: false,
 		settings: {
 			spellcheck: false,
 			ignore_punctuation: true,

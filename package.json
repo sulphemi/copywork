@@ -11,7 +11,7 @@
 		"tunnel": "npx localtunnel --port 8888 --subdomain copywork",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
-	"author": "TEAM MISCREANTS <project+copyright@miscreants.co>",
+	"author": "TEAM MISCREANTS <project+copywork@miscreants.co>",
 	"license": "SEE LICENSE IN LICENSE.md",
 	"dependencies": {
 		"@emotion/is-prop-valid": "^1.1.1",
