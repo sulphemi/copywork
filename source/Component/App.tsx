@@ -14,10 +14,6 @@ import Layout from 'Component/Layout';
 
 // -----------------------------------------------------------------------------
 
-const basename = ENVIRONMENT == 'production' ? '/copywork' : '';
-
-// -----------------------------------------------------------------------------
-
 export default function renderApp(): void {
 	render(<App />, document.body);
 
@@ -30,7 +26,7 @@ export default function renderApp(): void {
 
 function App(): JSX.Element {
 	return (
-		<HashRouter basename={basename}>
+		<HashRouter>
 			<StoreContext.Provider value={Store}>
 				<Layout>
 					<ErrorBoundary>
