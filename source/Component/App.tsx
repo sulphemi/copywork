@@ -1,5 +1,5 @@
 import { render } from 'react-dom';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { StoreContext } from 'storeon/react';
 
 import Store from 'store';
@@ -30,7 +30,7 @@ export default function renderApp(): void {
 
 function App(): JSX.Element {
 	return (
-		<BrowserRouter basename={basename}>
+		<HashRouter basename={basename}>
 			<StoreContext.Provider value={Store}>
 				<Layout>
 					<ErrorBoundary>
@@ -43,6 +43,6 @@ function App(): JSX.Element {
 					</ErrorBoundary>
 				</Layout>
 			</StoreContext.Provider>
-		</BrowserRouter>
+		</HashRouter>
 	);
 }
