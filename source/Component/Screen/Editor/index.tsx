@@ -6,9 +6,17 @@ import { ReturnIf } from 'babel-plugin-transform-functional-return';
 
 import Library from 'data/library.json';
 
+import { clampMin } from 'lib/math';
+
 // -----------------------------------------------------------------------------
 
 const NotAlphanumericRegex: RegExp = /[^a-z0-9]/i;
+
+const LibraryContentById = Library.reduce((obj, content) => {
+	obj[content.id] = content;
+
+	return obj;
+}, {});
 
 // -----------------------------------------------------------------------------
 
@@ -25,7 +33,13 @@ const EditorScreen = memo(function EditorScreen(): JSX.Element {
 	//
 	useEffect(() => {
 		if (id) {
-			const libraryContent = Library[id];
+			const libraryContent = LibraryContentById[id];
+			if (!libraryContent) {
+				setContentToCopy(undefined as string);
+				return;
+			}
+
+			//
 			const libraryContentText = libraryContent
 				? libraryContent?.text
 						.replace(/ +/g, ' ')
@@ -93,17 +107,17 @@ function onManagingEvents(
 		const onClick = contentToCopy
 			? (e: MouseEvent) => {
 					const target = e.target as HTMLElement;
-					if (!target.dataset.editor && !target.dataset.dontstealfocus) {
-						// set cursor to end of writer component
-						// https://stackoverflow.com/a/3866442/7400022
-						const range = document.createRange();
-						range.selectNodeContents(writerRef.current);
-						range.collapse(false);
+					ReturnIf(target.dataset.editor || target.dataset.dontstealfocus);
 
-						const selection = window.getSelection();
-						selection.removeAllRanges();
-						selection.addRange(range);
-					}
+					// set cursor to end of writer component
+					// https://stackoverflow.com/a/3866442/7400022
+					const range = document.createRange();
+					range.selectNodeContents(writerRef.current);
+					range.collapse(false);
+
+					const selection = window.getSelection();
+					selection.removeAllRanges();
+					selection.addRange(range);
 			  }
 			: undefined;
 
@@ -236,7 +250,7 @@ function checkUserProgress(
 ) {
 	return (e) => {
 		const target = e.target as HTMLElement;
-		ReturnIf(!target.dataset.dontstealfocus);
+		ReturnIf(target.dataset.dontstealfocus);
 
 		//
 		const text: string = writerRef.current.innerText;

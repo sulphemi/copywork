@@ -151,6 +151,7 @@ const Sidebar = memo(function Sidebar(): JSX.Element {
 								value={font || 'Copse'}
 								onChange={(e) => changeFont(e.target.value)}
 								tabIndex={sidebarShow ? null : -1}
+								data-dontstealfocus
 							>
 								<option value="Comfortaa" style={{ fontFamily: 'Comfortaa' }}>
 									Comfortaa
@@ -165,7 +166,12 @@ const Sidebar = memo(function Sidebar(): JSX.Element {
 						</MenuDropdown>
 						<Spacer />
 						<MenuLink>
-							<MenuButton>
+							<MenuButton
+								onClick={() =>
+									(window.location.href =
+										'mailto:steven@miscreants.com?subject=Copywork%20request')
+								}
+							>
 								<LifeRingIcon /> Request a feature
 							</MenuButton>
 						</MenuLink>
